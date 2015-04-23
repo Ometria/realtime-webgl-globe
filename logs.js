@@ -10,9 +10,10 @@ var Logger = function(container){
 
   api.add = function(data){
     var clone = item.cloneNode(true);
-    clone.innerHTML = (new Date()).toISOString();
+    clone.innerHTML = new Date().toISOString() + ': ' + data.type.toUpperCase();
+    clone.style.color = data.color;
     container.insertBefore(clone, container.firstChild);
-    
+
     if (container.childNodes.length >= (container.offsetHeight / height)) {
       container.childNodes[container.childNodes.length - 1].remove();
     }
