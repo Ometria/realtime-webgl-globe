@@ -1,10 +1,10 @@
 // Realtime WebGL globe
 // Copyright (c) 2015 Mike van Rossum
-// 
+//
 // Realtime Globe is a WebGL based earth globe that
 // makes it super simple to add shapes in realtime
 // on specific lat/lon positions on earth.
-// 
+//
 // @param container DOM Node div
 // @param urls Object URLs of images
 
@@ -27,7 +27,8 @@ var Globe = function(container, urls) {
   var earthPosition;
 
   // camera's distance from center (and thus the globe)
-  var distanceTarget = 900;
+  var distanceLimits = [450, 900];
+  var distanceTarget = distanceLimits[1];
   var distance = distanceTarget;
 
   // camera's position
@@ -41,9 +42,9 @@ var Globe = function(container, urls) {
   var blocks = [];
 
   // What gets exposed by calling:
-  // 
+  //
   //    var globe = [new] Globe(div, urls);
-  // 
+  //
   // attach public functions to this object
   var api = {};
 
@@ -74,7 +75,7 @@ var Globe = function(container, urls) {
 
     // Add lights to scene
     scene.add(new THREE.AmbientLight(0x656565));
-    scene.add(light);    
+    scene.add(light);
 
     // Renderer
     renderer = new THREE.WebGLRenderer({antialias: true});
@@ -107,13 +108,13 @@ var Globe = function(container, urls) {
   var createMesh = {
 
     // @param urls Object URLs of images
-    // 
+    //
     //  {
     //    earth: String URL
     //    bump: Sting URL [optional]
     //    specular: String URL [optional]
     //  }
-    //  
+    //
     // See
     // @link http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
     // @link http://learningthreejs.com/data/2013-09-16-how-to-make-the-earth-in-webgl/demo/index.html
@@ -123,7 +124,7 @@ var Globe = function(container, urls) {
 
       // var material  = new THREE.MeshPhongMaterial();
       // material.map = THREE.ImageUtils.loadTexture(urls.earth);
-      
+
       // if(urls.bump) {
       //   material.bump = THREE.ImageUtils.loadTexture(urls.bump);
       //   material.bumpScale = 0.02;
@@ -180,7 +181,7 @@ var Globe = function(container, urls) {
     // See
     // @link https://github.com/dataarts/webgl-globe/blob/master/globe/globe.js#L52
     // @link http://bkcore.com/blog/3d/webgl-three-js-animated-selective-glow.html
-    // 
+    //
     // Currently has some issues, especially when zooming out (distance > 900)
     atmosphere: function() {
       var material = new THREE.ShaderMaterial({
@@ -298,12 +299,12 @@ var Globe = function(container, urls) {
 
   var checkAltituteBoundries = function() {
     // max zoom
-    if(distanceTarget < 300)
-      distanceTarget = 300;
+    if(distanceTarget < distanceLimits[0])
+      distanceTarget = distanceLimits[0];
 
     // min zoom
-    else if(distanceTarget > 900)
-      distanceTarget = 900;
+    else if(distanceTarget > distanceLimits[1])
+      distanceTarget = distanceLimits[1];
   };
 
   var animate = function() {
@@ -340,7 +341,7 @@ var Globe = function(container, urls) {
 
   // @param Object position (2d lat/lon coordinates)
   // @return Object coords (x/y coordinates)
-  // 
+  //
   // Calculates x, y coordinates based on
   // lat/lon coordinates.
   var calculate2dPosition = function(coords) {
@@ -355,7 +356,7 @@ var Globe = function(container, urls) {
 
   // @param Mesh object
   // @param Object coords (x/y coordinates in 2d space + altitute)
-  // 
+  //
   // Calculates 3d position and sets it on mesh
   var set3dPosition = function(mesh, coords) {
     if(!coords)
@@ -396,7 +397,7 @@ var Globe = function(container, urls) {
 
       size: properties.size
     };
-    
+
     // calculate 3d position
     set3dPosition(block);
 
@@ -408,7 +409,7 @@ var Globe = function(container, urls) {
     block.scale.y = 1; //properties.size;
 
     block.updateMatrix();
-    
+
     return block;
   };
 
@@ -435,7 +436,7 @@ var Globe = function(container, urls) {
     block.scale.y = properties.size;
 
     block.updateMatrix();
-    
+
     return block;
   };
 
@@ -484,10 +485,10 @@ var Globe = function(container, urls) {
 
 
   // @param int delta
-  // 
+  //
   // Zoom the earth relatively to its current zoom.
   // (passing a positive number will zoom towards
-  // the earth, while a negative number will zoom 
+  // the earth, while a negative number will zoom
   // away from earth)
   api.zoomRelative = function(delta) {
     distanceTarget -= delta;
@@ -497,7 +498,7 @@ var Globe = function(container, urls) {
   }
 
   // @param int altitute
-  // 
+  //
   // Transition the altitute of the camera to a specific
   // distance from the earth's core.
   api.zoomTo = function(altitute) {
@@ -507,8 +508,12 @@ var Globe = function(container, urls) {
     return this;
   }
 
+  api.getZoom = function(){
+    return distanceTarget;
+  }
+
   // @param int altitute
-  // 
+  //
   // Set the altitute of the camera to a specific
   // distance from the earth's core.
   api.zoomImmediatelyTo = function(altitute) {
@@ -520,12 +525,12 @@ var Globe = function(container, urls) {
 
 
   // @param Object coordinates
-  
+
   //  {
   //    lat: (Float) latitute position,
   //    lon: (Float) longtitute position
   //  }
-   
+
   // Transition the globe from its current position
   // to the new coordinates.
   api.center = function(pos) {
@@ -534,12 +539,12 @@ var Globe = function(container, urls) {
   }
 
   // @param Object coordinates
-  // 
+  //
   //  {
   //    lat: (Float) latitute position,
   //    lon: (Float) longtitute position
   //  }
-  //  
+  //
   // Center the globe on the new coordinates.
   api.centerImmediate = function(pos) {
     target = rotation = calculate2dPosition(pos);
@@ -547,14 +552,14 @@ var Globe = function(container, urls) {
   }
 
   // @param Object data
-  // 
+  //
   //  {
   //    lat: (Float) latitute position,
   //    lon: (Float) longtitute position,
   //    size: (Float) size of block,
   //    color: (String) color of block
   //  }
-  //  
+  //
   //  Adds a block to the globe. The globe will spawn
   //  just below the earth's surface and `levitate`
   //  out of the surface until it is fully `out` of the
@@ -575,14 +580,14 @@ var Globe = function(container, urls) {
   }
 
   // @param Object data
-  // 
+  //
   //  {
   //    lat: (Float) latitute position,
   //    lon: (Float) longtitute position,
   //    size: (Float) size of block,
   //    color: (String) color of block
   //  }
-  //  
+  //
   //  Adds a block to the globe.
   api.addBlock = function(data) {
     var block = createBlock(data);
@@ -596,7 +601,7 @@ var Globe = function(container, urls) {
   // Remove all blocks from the globe.
   api.removeAllBlocks = function() {
     blocks.forEach(function(block) {
-      scene.remove(block);  
+      scene.remove(block);
     });
 
     blocks = [];
