@@ -23,15 +23,35 @@
       
     </script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js'></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <script src='globe.js'></script>
     <script>
+      var fb = new Firebase("https://crackling-torch-8756.firebaseio.com/");
+
+      fb.child('data').on('value', function(value){
+        /*
+          {
+            color: #FF6600,
+            size: 0 to 100,
+            lat: Math.random() * 160 - 80,
+            lon: Math.random() * 360 - 180,
+          }
+        */
+
+        var val = value.val();
+
+        if (!isNaN(val.lat) && !isNaN(val.lon) && val.color && !isNaN(val.size)) {
+          console.log(val);
+          drawLevitatingBlock(val);
+        }
+      });
 
       var div = document.getElementById('globe');
       var urls = {
         earth: 'img/world.jpg',
         bump: 'img/bump.jpg',
         specular: 'img/specular.jpg',
-      }
+      };
 
       // create a globe
       var globe = new Globe(div, urls);
@@ -42,14 +62,14 @@
       // - create a random block (somewhere on earth)
       // - center the globe to that position
       // - spawn the block on that position (after 300ms)
-      var drawRandomLevitatingBlock = function() {
-        var data = {
-          color: '#'+Math.floor(Math.random()*16777215).toString(16),
-          size: Math.random() * 100,
-          lat: Math.random() * 160 - 80,
-          lon: Math.random() * 360 - 180,
-          size: 20
-        };
+      var drawLevitatingBlock = function(data) {
+        // var data = {
+        //   color: '#'+Math.floor(Math.random()*16777215).toString(16),
+        //   size: Math.random() * 100,
+        //   lat: Math.random() * 160 - 80,
+        //   lon: Math.random() * 360 - 180,
+        //   size: 20
+        // };
 
         // center the globe to the position
         globe.center(data);
@@ -63,9 +83,7 @@
 
           globe.addLevitatingBlock(data);
         }, 300);
-      }
-
-      setInterval(drawRandomLevitatingBlock, 2000);
+      };
 
     </script>
   </body>

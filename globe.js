@@ -36,6 +36,7 @@ var Globe = function(container, urls) {
 
   // holds currently levitating blocks
   var levitatingBlocks = [];
+  var delevitatingBlocks = [];
   // holds all block references
   var blocks = [];
 
@@ -268,6 +269,7 @@ var Globe = function(container, urls) {
 
   var render = function() {
     levitateBlocks();
+    delevitateBlocks();
 
     // Rotate towards the target
     rotation.x += (target.x - rotation.x) * 0.1;
@@ -391,7 +393,7 @@ var Globe = function(container, urls) {
     block.updateMatrix();
     
     return block;
-  }
+  };
 
   // internal function to levitate all levitating
   // blocks each tick. Called on render.
@@ -410,7 +412,29 @@ var Globe = function(container, urls) {
       set3dPosition(block);
       block.updateMatrix();
     });
-  }
+  };
+
+  // internal function to levitate all levitating
+  // blocks each tick. Called on render.
+  var delevitateBlocks = function() {
+    delevitatingBlocks.forEach(function(block, i) {
+
+      var userData = block.userData;
+
+      // if entirely inside of earth, stop levitating
+      // if(userData.altitude > 200 + userData.size / 2) {
+      if(userData.altitude <= 0) {
+        delevitatingBlocks.splice(i, 1);
+        blocks.splice(blocks.indexOf(block), 1);
+        scene.remove(block);
+        return;
+      }
+
+      userData.altitude -= userData.levitation;
+      set3dPosition(block);
+      block.updateMatrix();
+    });
+  };
 
   //        Public functions
 
@@ -497,6 +521,11 @@ var Globe = function(container, urls) {
     scene.add(block);
     levitatingBlocks.push(block);
     blocks.push(block);
+
+    // Remove block after 5 seconds
+    setTimeout(function(){
+      delevitatingBlocks.push(block);
+    }, 5000);
 
     return this;
   }
