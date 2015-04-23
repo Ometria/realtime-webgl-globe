@@ -250,7 +250,7 @@ var Globe = function(container, urls) {
         container.style.cursor = 'auto';
       }
     }
-  }
+  };
 
   var checkAltituteBoundries = function() {
     // max zoom
@@ -260,12 +260,12 @@ var Globe = function(container, urls) {
     // min zoom
     else if(distanceTarget > 900)
       distanceTarget = 900;
-  }
+  };
 
   var animate = function() {
     requestAnimationFrame(animate);
     render();
-  }
+  };
 
   var render = function() {
     levitateBlocks();
@@ -292,7 +292,7 @@ var Globe = function(container, urls) {
 
     camera.lookAt(earthPosition);
     renderer.render(scene, camera);
-  }
+  };
 
   // @param Object position (2d lat/lon coordinates)
   // @return Object coords (x/y coordinates)
