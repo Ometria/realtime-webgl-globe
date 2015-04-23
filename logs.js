@@ -1,7 +1,7 @@
 var Logger = function(container){
   var logs = [];
   var item = document.createElement('DIV');
-  var height = 15;
+  var height = 20;
 
   // The number of events that fit on screen (needs to be calculated)
   var onScreen = 5;
