@@ -97,12 +97,12 @@ var Globe = function(container, urls) {
     animate();
 
     return this;
-  }
+  };
 
   var setSize = function() {
     w = container.offsetWidth || window.innerWidth;
     h = container.offsetHeight || window.innerHeight;
-  }
+  };
 
   var createMesh = {
 
@@ -121,20 +121,60 @@ var Globe = function(container, urls) {
       if(!urls.earth)
         throw 'No image URL provided for an earth image';
 
-      var material  = new THREE.MeshPhongMaterial();
-      material.map = THREE.ImageUtils.loadTexture(urls.earth);
+      // var material  = new THREE.MeshPhongMaterial();
+      // material.map = THREE.ImageUtils.loadTexture(urls.earth);
       
-      if(urls.bump) {
-        material.bump = THREE.ImageUtils.loadTexture(urls.bump);
-        material.bumpScale = 0.02;
-      }
+      // if(urls.bump) {
+      //   material.bump = THREE.ImageUtils.loadTexture(urls.bump);
+      //   material.bumpScale = 0.02;
+      // }
 
-      if(urls.specular) {
-        material.specularMap = THREE.ImageUtils.loadTexture(urls.specular);
-        material.specular = new THREE.Color('grey');
-      }
+      // if(urls.specular) {
+      //   material.specularMap = THREE.ImageUtils.loadTexture(urls.specular);
+      //   material.specular = new THREE.Color('grey');
+      // }
 
-      return new THREE.Mesh(earthGeometry, material);
+      // return new THREE.Mesh(earthGeometry, material);
+      var shader = {
+        uniforms: {
+          'texture': { type: 't', value: null }
+        },
+        vertexShader: [
+          'varying vec3 vNormal;',
+          'varying vec2 vUv;',
+          'void main() {',
+            'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+            'vNormal = normalize( normalMatrix * normal );',
+            'vUv = uv;',
+          '}'
+        ].join('\n'),
+        fragmentShader: [
+          'uniform sampler2D texture;',
+          'varying vec3 vNormal;',
+          'varying vec2 vUv;',
+          'void main() {',
+            'vec3 diffuse = texture2D( texture, vUv ).xyz;',
+            'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
+            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 3.0 );',
+            'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );',
+          '}'
+        ].join('\n')
+      };
+
+      var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+
+      uniforms.texture.value = THREE.ImageUtils.loadTexture(urls.earth);
+
+      var material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader
+
+          });
+
+      mesh = new THREE.Mesh(earthGeometry, material);
+
+      return mesh;
     },
 
     // See
@@ -144,20 +184,20 @@ var Globe = function(container, urls) {
     // Currently has some issues, especially when zooming out (distance > 900)
     atmosphere: function() {
       var material = new THREE.ShaderMaterial({
-        vertexShader: [
-          'varying vec3 vNormal;',
-          'void main() {',
-            'vNormal = normalize( normalMatrix * normal );',
-            'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
-          '}'
-        ].join('\n'),
-        fragmentShader: [
-          'varying vec3 vNormal;',
-          'void main() {',
-            'float intensity = pow( 0.8 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 7.0 );',
-            'gl_FragColor = vec4( 0.7, 1.0, 0.7, 1.0 ) * intensity;',
-          '}'
-        ].join('\n'),
+      vertexShader: [
+        'varying vec3 vNormal;',
+        'void main() {',
+          'vNormal = normalize( normalMatrix * normal );',
+          'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+        '}'
+      ].join('\n'),
+      fragmentShader: [
+        'varying vec3 vNormal;',
+        'void main() {',
+          'float intensity = pow( 0.8 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 12.0 );',
+          'gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;',
+        '}'
+      ].join('\n'),
         side: THREE.BackSide,
         blending: THREE.AdditiveBlending,
         transparent: false
@@ -176,11 +216,15 @@ var Globe = function(container, urls) {
     block: function(color) {
       return new THREE.Mesh(
         new THREE.BoxGeometry(1, 1, 1),
-        new THREE.MeshLambertMaterial({color: color})
+        new THREE.MeshBasicMaterial({
+          color: color,
+          // vertexColors: THREE.FaceColors,
+          // morphTargets: true
+        })
       );
     }
 
-  }
+  };
 
   // Keep track of mouse positions
   var mouse = { x: 0, y: 0 };
@@ -326,7 +370,7 @@ var Globe = function(container, urls) {
       altitude * Math.sin(y),
       altitude * Math.cos(x) * Math.cos(y)
     );
-  }
+  };
 
   // Create a block mesh and set its position in 3d
   // space just below the earths surface
@@ -348,10 +392,10 @@ var Globe = function(container, urls) {
       altitude: 200 - properties.size / 1.5,
       // speed at which block levitates outside
       // earth's core
-      levitation: .1,
+      levitation: 4,//0.1,
 
       size: properties.size
-    }
+    };
     
     // calculate 3d position
     set3dPosition(block);
@@ -360,13 +404,13 @@ var Globe = function(container, urls) {
     block.lookAt(earthPosition);
 
     block.scale.z = properties.size;
-    block.scale.x = properties.size;
-    block.scale.y = properties.size;
+    block.scale.x = 1; //properties.size;
+    block.scale.y = 1; //properties.size;
 
     block.updateMatrix();
     
     return block;
-  }
+  };
 
   // Create a block mesh and set its position in 3d
   // space just below the earths surface
