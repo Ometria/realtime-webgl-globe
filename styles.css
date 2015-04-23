@@ -3,3 +3,19 @@ body {
   margin: 0;
   background: black;
 }
+
+main {
+  height: 100vh;
+  width: 75vw;
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+aside {
+  height: 100vh;
+  width: 25vw;
+  position: absolute;
+  top:0;
+  left:75vw;
+}

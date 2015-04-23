@@ -6,6 +6,7 @@
 
 var fb = new Firebase("https://crackling-torch-8756.firebaseio.com/");
 var div = document.getElementById('globe');
+var logs = document.getElementById('log-container');
 var urls = {
   earth: 'img/world.jpg',
   bump: 'img/bump.jpg',
@@ -22,7 +23,7 @@ var drawLevitatingBlock = function(data) {
   // faking realtime-iness
   setTimeout(function() {
     globe.addLevitatingBlock(data);
-  }, Math.round(Math.random()*100));
+  }, Math.round(Math.random()*300));
 };
 
 var centerBlock = function(data){

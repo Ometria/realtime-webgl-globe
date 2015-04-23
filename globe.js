@@ -569,7 +569,7 @@ var Globe = function(container, urls) {
     // Remove block after 5 seconds
     setTimeout(function(){
       delevitatingBlocks.push(block);
-    }, 5000);
+    }, 3000);
 
     return this;
   }
