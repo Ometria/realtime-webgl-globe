@@ -15,6 +15,17 @@ var urls = {
 
 var globe = new Globe(div, urls);
 
+var colorForEvent = {
+  'addtobasket': '#03A9F4',   //blue
+  'arrive': '#E8E000',        //yellow
+  'checkout': '#5355f4',      //darker blue
+  'homepage': '#a402f5',      //purple
+  'listing': '#e90524',       //red
+  'product': '#E477DA',       //pink
+  'transaction': '#ffffff',   //white
+  'viewproduct': '#84BC00'    //green
+};
+
 // start it
 globe.init();
 
@@ -52,7 +63,7 @@ fb.child('data').on('value', function(value){
       var val = vals[i];
 
       if (!isNaN(val.lat) && !isNaN(val.lon)) {
-        val.color = val.is_ometria ? '#FF6D00' : '#03A9F4';
+        val.color = val.is_ometria ? '#FF6D00' : colorForEvent[val.type];
         val.size = 100;
         drawLevitatingBlock(val);
 
