@@ -14,10 +14,16 @@ var urls = {
 };
 
 var globe = new Globe(div, urls);
+var logger = new Logger(logs);
 
 // start it
 globe.init();
 
+var addLog = function(log, i){
+  setTimeout(function(){
+    logger.add(log);
+  }, 100 * i);
+};
 
 var drawLevitatingBlock = function(data) {
   // faking realtime-iness
@@ -53,6 +59,8 @@ fb.child('data').on('value', function(value){
       if (!isNaN(val.lat) && !isNaN(val.lon)) {
         val.color = val.is_ometria ? '#FF6D00' : '#03A9F4';
         val.size = 100;
+        
+        addLog(vals[i], i);
         drawLevitatingBlock(val);
 
         if (i === 0) {
