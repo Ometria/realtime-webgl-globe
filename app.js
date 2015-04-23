@@ -27,10 +27,11 @@ var drawLevitatingBlock = function(data) {
 };
 
 var centerBlock = function(data){
+  var offset = globe.getZoom() / 100;
   // center the globe to the position
   globe.center({
-    lat: data.lat - 10,
-    lon: data.lon - 10
+    lat: data.lat - offset,
+    lon: data.lon - offset
   });
 };
 
