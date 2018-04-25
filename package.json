@@ -1,0 +1,23 @@
+{
+  "name": "ometria-globe",
+  "version": "1.0.0",
+  "description": "Ometria Realtime Globe ======================",
+  "main": "app.js",
+  "scripts": {
+    "start": "http-server -p 8888",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ometria/realtime-webgl-globe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ometria/realtime-webgl-globe/issues"
+  },
+  "homepage": "https://github.com/Ometria/realtime-webgl-globe#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
