@@ -4,6 +4,8 @@
 // 🌍🌎🌏 2015, Ometria
 //
 
+// var particlesJS = require('particles.js');
+
 var fb = new Firebase("https://crackling-torch-8756.firebaseio.com/");
 
 var div = document.getElementById('globe');
@@ -89,4 +91,9 @@ fb.child('data').on('value', function(value){
       }
     }
   }
+});
+
+/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+particlesJS.load('particles', 'particles.json', function() {
+  console.log('callback - particles.js config loaded');
 });
