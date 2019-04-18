@@ -10,7 +10,6 @@ var fb = new Firebase("https://crackling-torch-8756.firebaseio.com/");
 
 var div = document.getElementById('globe');
 var logs = document.getElementById('log-container');
-var image = document.getElementById('product');
 
 var urls = {
   earth: 'img/world.jpg',
@@ -20,7 +19,6 @@ var urls = {
 
 var globe   = new Globe(div, urls);
 var logger  = new Logger(logs);
-var product = new Product(image);
 
 var colorForEvent = {
   'addtobasket': '#03A9F4',   //blue
@@ -35,7 +33,6 @@ var colorForEvent = {
 
 // start it
 globe.init();
-product.init();
 
 var addLog = function(log, i){
   setTimeout(function(){
@@ -74,8 +71,6 @@ fb.child('data').on('value', function(value){
   if (vals.length) {
     for (var i = vals.length - 1; i >= 0; i--) {
       var val = vals[i];
-
-      if (val.product && val.product.image_url) product.set(val.product.image_url);
 
       if (!isNaN(val.lat) && !isNaN(val.lon)) {
         val.color = val.is_ometria ? '#FF6D00' : colorForEvent[val.type];
