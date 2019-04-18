@@ -5,7 +5,7 @@ body {
 }
 
 main {
-  height: 100vh;
+  height: 75vh;
   width: 75vw;
   position: absolute;
   top:0;
@@ -13,7 +13,7 @@ main {
 }
 
 aside {
-  height: 100vh;
+  height: 75vh;
   width: 30vw;
   margin-left: -5vw;
   position: absolute;
@@ -28,6 +28,18 @@ aside {
 
 aside div {
   margin-top: 0.5em;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25vh;
+}
+
+footer p {
+  color: #fff;
 }
 
 div.product {

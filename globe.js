@@ -102,7 +102,7 @@ var Globe = function(container, urls) {
 
   var setSize = function() {
     w = container.offsetWidth || window.innerWidth;
-    h = container.offsetHeight || window.innerHeight;
+    h = (container.offsetHeight || window.innerHeight) * 0.75;
   };
 
   var createMesh = {
