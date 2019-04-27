@@ -4,7 +4,7 @@
       "value": 80,
       "density": {
         "enable": true,
-        "value_area": 15
+        "value_area": 30
       }
     },
     "color": {
@@ -24,7 +24,7 @@
     },
     "opacity": {
       "value": 0.5,
-      "random": false
+      "random": true
     },
     "size": {
       "value": 6,
@@ -39,10 +39,10 @@
     },
     "move": {
       "enable": true,
-      "speed": 18,
+      "speed": 16,
       "direction": "right",
-      "random": false,
-      "straight": true,
+      "random": true,
+      "straight": false,
       "out_mode": "out",
       "bounce": false,
       "attract": {

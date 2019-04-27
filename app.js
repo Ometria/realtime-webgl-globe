@@ -89,12 +89,13 @@ fb.child('data').on('value', function(value){
   }
 });
 
-/* particlesJS.load(@dom-id, @path-json, @callback (optional)); 
+/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
 particlesJS.load('particles', 'particles.json', function() {
   console.log('callback - particles.js config loaded');
 });
-*/
 
-setInterval(() => {
-  eventsSecond.textContent = Math.floor(Math.random() * 50 + 100);
-}, 1500);
+fb.child('rate').on('value', function(value){
+  let v = value.val();
+  console.log(v)
+  eventsSecond.textContent = v.event_count;
+});

@@ -8,7 +8,7 @@ body {
 }
 
 main {
-  height: 75vh;
+  height: 80vh;
   width: 75vw;
   position: absolute;
   top:0;
@@ -16,7 +16,7 @@ main {
 }
 
 aside {
-  height: 75vh;
+  height: 80vh;
   width: 30vw;
   margin-left: -5vw;
   position: absolute;
@@ -38,7 +38,7 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 25vh;
+  height: 20vh;
 }
 
 footer p {
@@ -269,5 +269,5 @@ body {
 
 .component.component-counter h2 {
   font-size: 74px;
-  margin-top: 0.6em;
+  margin-top: 0.25em;
 }
