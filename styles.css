@@ -187,39 +187,87 @@ body {
     }
 }
 
-#particles {
+.particles-container {
   color: white;
   padding: 20px;
+  padding-bottom: 30px;
   display: flex;
   flex-direction: column;
 }
-#particles h3 {
+.particles-container h3 {
   text-transform: uppercase;
   font-size: 1em;
 }
-#particles .diagram {
+.particles-container .diagram {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  width: 50%;
-  overflow: hidden;
+  width: 100%;
 }
-#particles .diagram .component {
-  width: 25%;
+.particles-container .diagram .component {
+  width: 14%;
   flex-grow: 1;
+  position: relative;
+  justify-content: space-between;
+  text-align: center;
 }
-#particles .diagram .component img {
+
+.particles-container .diagram .component span {
+  display: inline-block;
+  height: 100%;
+  background: rgba(10,10,10,0.85);
+}
+
+.particles-container .diagram .component img {
   max-width: 100%;
   max-height: 100%;
-  padding: 20px;
   border: 1px solid #aaa;
-  background: rgba(255,255,255,0.05);
+  padding: 10px;
+}
+
+.particles-container .diagram .component label {
+  background: white;
+  color: black;
+  margin: 0 auto;
+  position: absolute;
+  top: 103%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 0 2px;
+  text-align: center;
 
 }
+
 .particles-js-canvas-el {
   position: absolute;
   top:0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+#particles {
+  position: absolute;
+  height: 75px;
+  width: 75%;
+  left: 0%;
+  top: 60%;
+  transform: translateY(-50%);
+}
+
+.particles-container .diagram .component.component-counter  {
+  position: relative;
+}
+
+.particles-container .diagram .component.component-counter label {
+  top: 0;
+  width: 75%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.component.component-counter h2 {
+  font-size: 74px;
+  margin-top: 0.6em;
 }

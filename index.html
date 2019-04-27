@@ -20,20 +20,49 @@
 
     <aside id="log-container"></aside>
 
-    <footer id="particles">
+    <footer class="particles-container">
+      <div id="particles"></div>
       <h3>JS Tracker Events Pipeline</h3>
       <div class="diagram">
         <div class="component">
-          <img src="./img/diagram/elb.png" />
+          <span>
+            <img src="./img/diagram/elb.png" />
+            <label>Amazon ELB</label>
+          </span>
         </div>
         <div class="component">
+          <span>
           <img src="./img/diagram/traefik.png" />
+          <label>Traefik</label>
+          </span>
         </div>
         <div class="component">
+          <span>
           <img src="./img/diagram/gopher.png" />
+          <label>Go server</label>
+          </span>
         </div>
         <div class="component">
+          <span>
+          <img src="./img/diagram/pubsub.png" />
+          <label>Google Pub/Sub</label>
+          </span>
+        </div>
+        <div class="component">
+          <span>
+          <img src="./img/diagram/python.png" />
+          <label>Python service</label>
+          </span>
+        </div>
+        <div class="component">
+          <span>
           <img src="./img/diagram/mongodb.png" />
+          <label>MongoDB datastore</label>
+          </span>
+        </div>
+        <div class="component component-counter">
+          <label>Events/second</label>
+          <h2 data-hook="events-second">104</h2>
         </div>
       </div>
     </footer>

@@ -10,6 +10,7 @@ var fb = new Firebase("https://crackling-torch-8756.firebaseio.com/");
 
 var div = document.getElementById('globe');
 var logs = document.getElementById('log-container');
+var eventsSecond = document.querySelector('[data-hook=events-second]');
 
 var urls = {
   earth: 'img/world.jpg',
@@ -88,7 +89,12 @@ fb.child('data').on('value', function(value){
   }
 });
 
-/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+/* particlesJS.load(@dom-id, @path-json, @callback (optional)); 
 particlesJS.load('particles', 'particles.json', function() {
   console.log('callback - particles.js config loaded');
 });
+*/
+
+setInterval(() => {
+  eventsSecond.textContent = Math.floor(Math.random() * 50 + 100);
+}, 1500);
