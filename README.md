@@ -25,3 +25,8 @@ Run:
 ```
 nohup /server/apps/ometria.smr_hackathon_2015/activate.sh prod /server/python/smr_hackathon_2015/bin/python /server/apps/ometria.smr_hackathon_2015/ometria_smr_hackathon_2015/run.py &
 ```
+
+2019 Pycon update
+----------------
+
+The `run.sh` script is the actual entrypoint, ignore the above.
