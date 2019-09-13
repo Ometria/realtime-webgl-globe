@@ -203,6 +203,8 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
+  overflow:hidden;
+
 }
 .particles-container .diagram .component {
   width: 14%;
