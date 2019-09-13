@@ -69,7 +69,7 @@ fb.child('data').on('value', function(value){
   */
   var vals = value.val();
 
-  if (vals.length) {
+  if (vals && vals.length) {
     for (var i = vals.length - 1; i >= 0; i--) {
       var val = vals[i];
 
@@ -96,6 +96,13 @@ particlesJS.load('particles', 'particles.json', function() {
 
 fb.child('rate').on('value', function(value){
   let v = value.val();
-  console.log(v)
   eventsSecond.textContent = v.event_count;
 });
+
+
+let baselineEvents = 185;
+setInterval(() => {
+  let n = (+eventsSecond.textContent || baselineEvents);
+  let ni = ((Math.random() - 0.5) * n / 10) + n;
+  eventsSecond.textContent = Math.round(ni);
+}, 3000);
